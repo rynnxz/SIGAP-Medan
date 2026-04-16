@@ -1,0 +1,340 @@
+{
+  "tourism_destinations": [
+    {
+      "id": "1",
+      "name": "Istana Maimun",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Sejarah & Budaya",
+      "description": "Istana Kesultanan Deli yang megah dengan arsitektur perpaduan Timur Tengah, India, dan Eropa",
+      "latitude": 3.5752,
+      "longitude": 98.6850,
+      "image_url": "https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=800"
+    },
+    {
+      "id": "2",
+      "name": "Tjong A Fie Mansion",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Sejarah & Budaya",
+      "description": "Rumah megah peninggalan saudagar tembakau Tjong A Fie dengan arsitektur Tionghoa klasik",
+      "latitude": 3.5828,
+      "longitude": 98.6793,
+      "image_url": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800"
+    },
+    {
+      "id": "3",
+      "name": "Masjid Raya Al-Mashun",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Religi",
+      "description": "Masjid bersejarah dengan arsitektur Timur Tengah yang megah, dibangun tahun 1906",
+      "latitude": 3.5758,
+      "longitude": 98.6842,
+      "image_url": "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800"
+    },
+    {
+      "id": "4",
+      "name": "Kawasan Kesawan",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Heritage",
+      "description": "Kawasan heritage dengan bangunan-bangunan kolonial bersejarah di pusat kota Medan",
+      "latitude": 3.5882,
+      "longitude": 98.6792,
+      "image_url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800"
+    },
+    {
+      "id": "5",
+      "name": "Taman Simalem Resort",
+      "city": "Merek",
+      "province": "Sumatera Utara",
+      "category": "Alam",
+      "description": "Resort dengan pemandangan Danau Toba yang spektakuler",
+      "latitude": 2.9167,
+      "longitude": 98.5833,
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+    },
+    {
+      "id": "6",
+      "name": "Danau Toba",
+      "city": "Parapat",
+      "province": "Sumatera Utara",
+      "category": "Alam",
+      "description": "Danau vulkanik terbesar di Indonesia dan Asia Tenggara",
+      "latitude": 2.6845,
+      "longitude": 98.8756,
+      "image_url": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800"
+    },
+    {
+      "id": "7",
+      "name": "Pulau Samosir",
+      "city": "Samosir",
+      "province": "Sumatera Utara",
+      "category": "Alam & Budaya",
+      "description": "Pulau di tengah Danau Toba, pusat budaya Batak Toba",
+      "latitude": 2.6580,
+      "longitude": 98.8156,
+      "image_url": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800"
+    },
+    {
+      "id": "8",
+      "name": "Hillpark Sibolangit",
+      "city": "Sibolangit",
+      "province": "Sumatera Utara",
+      "category": "Rekreasi",
+      "description": "Taman rekreasi dengan wahana permainan dan pemandangan pegunungan",
+      "latitude": 3.2833,
+      "longitude": 98.7167,
+      "image_url": "https://images.unsplash.com/photo-1594818379496-da1e345b0ded?w=800"
+    },
+    {
+      "id": "9",
+      "name": "Rahmat International Wildlife Museum & Gallery",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Museum",
+      "description": "Museum satwa terbesar di Asia Tenggara dengan koleksi lebih dari 2000 spesimen",
+      "latitude": 3.5547,
+      "longitude": 98.6931,
+      "image_url": "https://images.unsplash.com/photo-1566127992631-137a642a90f4?w=800"
+    },
+    {
+      "id": "10",
+      "name": "Vihara Gunung Timur",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Religi",
+      "description": "Vihara tertua di Medan dengan arsitektur Tionghoa klasik yang indah",
+      "latitude": 3.5833,
+      "longitude": 98.6833,
+      "image_url": "https://images.unsplash.com/photo-1548013146-72479768bada?w=800"
+    },
+    {
+      "id": "11",
+      "name": "Maha Vihara Maitreya",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Religi",
+      "description": "Vihara terbesar di Indonesia dengan arsitektur megah dan patung Buddha raksasa",
+      "latitude": 3.5167,
+      "longitude": 98.6667,
+      "image_url": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800"
+    },
+    {
+      "id": "12",
+      "name": "Taman Cadika",
+      "city": "Medan",
+      "province": "Sumatera Utara",
+      "category": "Rekreasi",
+      "description": "Taman kota dengan fasilitas olahraga dan area bermain keluarga",
+      "latitude": 3.5833,
+      "longitude": 98.6667,
+      "image_url": "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=800"
+    },
+    {
+      "id": "13",
+      "name": "Candi Borobudur",
+      "city": "Magelang",
+      "province": "Jawa Tengah",
+      "category": "Sejarah & Budaya",
+      "description": "Candi Buddha terbesar di dunia, situs warisan dunia UNESCO",
+      "latitude": -7.6079,
+      "longitude": 110.2038,
+      "image_url": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800"
+    },
+    {
+      "id": "14",
+      "name": "Candi Prambanan",
+      "city": "Sleman",
+      "province": "Yogyakarta",
+      "category": "Sejarah & Budaya",
+      "description": "Kompleks candi Hindu terbesar di Indonesia",
+      "latitude": -7.7520,
+      "longitude": 110.4915,
+      "image_url": "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=800"
+    },
+    {
+      "id": "15",
+      "name": "Keraton Yogyakarta",
+      "city": "Yogyakarta",
+      "province": "Yogyakarta",
+      "category": "Sejarah & Budaya",
+      "description": "Istana resmi Kesultanan Ngayogyakarta Hadiningrat",
+      "latitude": -7.8053,
+      "longitude": 110.3644,
+      "image_url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800"
+    },
+    {
+      "id": "16",
+      "name": "Pantai Kuta",
+      "city": "Badung",
+      "province": "Bali",
+      "category": "Pantai",
+      "description": "Pantai terkenal di Bali dengan sunset yang indah",
+      "latitude": -8.7184,
+      "longitude": 115.1686,
+      "image_url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800"
+    },
+    {
+      "id": "17",
+      "name": "Tanah Lot",
+      "city": "Tabanan",
+      "province": "Bali",
+      "category": "Religi & Alam",
+      "description": "Pura di atas batu karang dengan pemandangan sunset spektakuler",
+      "latitude": -8.6211,
+      "longitude": 115.0868,
+      "image_url": "https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800"
+    },
+    {
+      "id": "18",
+      "name": "Ubud Monkey Forest",
+      "city": "Ubud",
+      "province": "Bali",
+      "category": "Alam",
+      "description": "Hutan lindung dengan ratusan monyet ekor panjang",
+      "latitude": -8.5189,
+      "longitude": 115.2585,
+      "image_url": "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=800"
+    },
+    {
+      "id": "19",
+      "name": "Gunung Bromo",
+      "city": "Probolinggo",
+      "province": "Jawa Timur",
+      "category": "Alam",
+      "description": "Gunung berapi aktif dengan pemandangan sunrise yang menakjubkan",
+      "latitude": -7.9425,
+      "longitude": 112.9531,
+      "image_url": "https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=800"
+    },
+    {
+      "id": "20",
+      "name": "Kawah Ijen",
+      "city": "Banyuwangi",
+      "province": "Jawa Timur",
+      "category": "Alam",
+      "description": "Kawah dengan fenomena blue fire yang langka",
+      "latitude": -8.0583,
+      "longitude": 114.2425,
+      "image_url": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800"
+    },
+    {
+      "id": "21",
+      "name": "Pulau Komodo",
+      "city": "Komodo",
+      "province": "Nusa Tenggara Timur",
+      "category": "Alam",
+      "description": "Habitat asli komodo, kadal terbesar di dunia",
+      "latitude": -8.5500,
+      "longitude": 119.4833,
+      "image_url": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800"
+    },
+    {
+      "id": "22",
+      "name": "Raja Ampat",
+      "city": "Raja Ampat",
+      "province": "Papua Barat",
+      "category": "Alam & Bahari",
+      "description": "Surga diving dengan keanekaragaman hayati laut terkaya di dunia",
+      "latitude": -0.2333,
+      "longitude": 130.5167,
+      "image_url": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800"
+    },
+    {
+      "id": "23",
+      "name": "Bunaken",
+      "city": "Manado",
+      "province": "Sulawesi Utara",
+      "category": "Alam & Bahari",
+      "description": "Taman laut dengan terumbu karang dan biota laut yang menakjubkan",
+      "latitude": 1.6167,
+      "longitude": 124.7667,
+      "image_url": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800"
+    },
+    {
+      "id": "24",
+      "name": "Tana Toraja",
+      "city": "Toraja",
+      "province": "Sulawesi Selatan",
+      "category": "Budaya",
+      "description": "Daerah dengan tradisi pemakaman unik dan rumah adat Tongkonan",
+      "latitude": -2.9833,
+      "longitude": 119.8333,
+      "image_url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800"
+    },
+    {
+      "id": "25",
+      "name": "Derawan",
+      "city": "Berau",
+      "province": "Kalimantan Timur",
+      "category": "Alam & Bahari",
+      "description": "Kepulauan dengan pantai pasir putih dan penyu hijau",
+      "latitude": 2.2833,
+      "longitude": 118.2333,
+      "image_url": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800"
+    },
+    {
+      "id": "26",
+      "name": "Monas",
+      "city": "Jakarta",
+      "province": "DKI Jakarta",
+      "category": "Sejarah",
+      "description": "Monumen Nasional, simbol kemerdekaan Indonesia",
+      "latitude": -6.1754,
+      "longitude": 106.8272,
+      "image_url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800"
+    },
+    {
+      "id": "27",
+      "name": "Kota Tua Jakarta",
+      "city": "Jakarta",
+      "province": "DKI Jakarta",
+      "category": "Sejarah & Budaya",
+      "description": "Kawasan bersejarah dengan bangunan kolonial Belanda",
+      "latitude": -6.1352,
+      "longitude": 106.8133,
+      "image_url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800"
+    },
+    {
+      "id": "28",
+      "name": "Gedung Sate",
+      "city": "Bandung",
+      "province": "Jawa Barat",
+      "category": "Sejarah",
+      "description": "Bangunan ikonik Bandung dengan arsitektur kolonial",
+      "latitude": -6.9024,
+      "longitude": 107.6186,
+      "image_url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800"
+    },
+    {
+      "id": "29",
+      "name": "Kawah Putih",
+      "city": "Bandung",
+      "province": "Jawa Barat",
+      "category": "Alam",
+      "description": "Danau kawah dengan air berwarna putih kehijauan",
+      "latitude": -7.1661,
+      "longitude": 107.4025,
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+    },
+    {
+      "id": "30",
+      "name": "Pantai Parangtritis",
+      "city": "Bantul",
+      "province": "Yogyakarta",
+      "category": "Pantai",
+      "description": "Pantai legendaris dengan ombak besar dan sunset indah",
+      "latitude": -8.0250,
+      "longitude": 110.3292,
+      "image_url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800"
+    }
+  ],
+  "metadata": {
+    "total_destinations": 30,
+    "medan_destinations": 12,
+    "provinces_covered": 14,
+    "last_updated": "2026-03-24"
+  }
+}
