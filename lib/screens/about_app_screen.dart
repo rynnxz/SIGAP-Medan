@@ -106,7 +106,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    'Sistem Informasi Gotong-royong\ndan Pengaduan',
+                    'Sistem Informasi Geospasial\nAspirasi dan Partisipasi',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 13,

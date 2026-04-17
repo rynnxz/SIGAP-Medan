@@ -1,5 +1,7 @@
 # SIGAP-Medan
 
+**Sistem Informasi Geospasial Aspirasi dan Partisipasi**
+
 Aplikasi pelaporan masalah kota dan informasi wisata Kota Medan berbasis Flutter + Firebase.
 
 ## Fitur Utama

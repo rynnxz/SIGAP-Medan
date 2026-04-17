@@ -15,7 +15,7 @@ class _FaqScreenState extends State<FaqScreen> {
     (
       q: 'Apa itu SIGAP Medan?',
       a:
-          'SIGAP Medan (Sistem Informasi Gotong-royong dan Pengaduan) adalah aplikasi pelaporan kerusakan jalan dan infrastruktur kota Medan berbasis komunitas. Warga dapat melaporkan kerusakan, memantau progres penanganan, dan mendapatkan poin reward atas kontribusi mereka.',
+          'SIGAP Medan (Sistem Informasi Geospasial Aspirasi dan Partisipasi) adalah aplikasi pelaporan masalah kota Medan berbasis komunitas. Warga dapat melaporkan kerusakan infrastruktur, memantau progres penanganan oleh dinas terkait, dan mendapatkan poin reward atas kontribusi mereka.',
     ),
     (
       q: 'Bagaimana cara melaporkan jalan rusak?',
