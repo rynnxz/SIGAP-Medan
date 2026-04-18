@@ -238,15 +238,26 @@ class _DinasScreenState extends State<DinasScreen> {
                         return _emptyState(isDark,
                             'Belum ada laporan yang\nditugaskan ke dinas Anda.');
                       }
-                      return ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: docs.length,
-                        itemBuilder: (ctx, i) => _reportCard(
-                          docs[i].id,
-                          docs[i].data(),
-                          isDark,
-                          card,
-                        ),
+                      return Column(
+                        children: [
+                          _summaryBar(docs, isDark),
+                          Divider(height: 1,
+                              color: isDark
+                                  ? const Color(0xFF374151)
+                                  : const Color(0xFFE5E7EB)),
+                          Expanded(
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: docs.length,
+                              itemBuilder: (ctx, i) => _reportCard(
+                                docs[i].id,
+                                docs[i].data(),
+                                isDark,
+                                card,
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -320,49 +331,65 @@ class _DinasScreenState extends State<DinasScreen> {
   }
 
   Widget _buildFilterRow(bool isDark) {
-    final chips = [
-      ('Semua',    'all',       _blue),
-      ('Diproses', 'Diproses',  _amber),
-      ('Selesai',  'Selesai',   _green),
-    ];
     return Container(
       color: isDark ? const Color(0xFF1F2937) : Colors.white,
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-      child: Row(
-        children: chips.map((t) {
-          final active = _filterStatus == t.$2;
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: GestureDetector(
-              onTap: () => setState(() => _filterStatus = t.$2),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 7),
-                decoration: BoxDecoration(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _chip('Semua',    'all',      LucideIcons.layoutGrid,   _blue,  isDark),
+            const SizedBox(width: 8),
+            _chip('Menunggu', 'Menunggu', LucideIcons.alertCircle,  _blue,  isDark),
+            const SizedBox(width: 8),
+            _chip('Diproses', 'Diproses', LucideIcons.clock,        _amber, isDark),
+            const SizedBox(width: 8),
+            _chip('Selesai',  'Selesai',  LucideIcons.checkCircle2, _green, isDark),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _chip(String label, String value, IconData icon, Color color, bool isDark) {
+    final active = _filterStatus == value;
+    return GestureDetector(
+      onTap: () => setState(() => _filterStatus = value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: active
+              ? color
+              : (isDark ? const Color(0xFF374151) : const Color(0xFFF3F4F6)),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: active ? color : Colors.transparent,
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 13,
+                color: active
+                    ? Colors.white
+                    : (isDark
+                        ? const Color(0xFF9CA3AF)
+                        : const Color(0xFF6B7280))),
+            const SizedBox(width: 5),
+            Text(label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
                   color: active
-                      ? t.$3
+                      ? Colors.white
                       : (isDark
-                          ? const Color(0xFF374151)
-                          : const Color(0xFFF3F4F6)),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  t.$1,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: active
-                        ? Colors.white
-                        : (isDark
-                            ? const Color(0xFF9CA3AF)
-                            : const Color(0xFF6B7280)),
-                  ),
-                ),
-              ),
-            ),
-          );
-        }).toList(),
+                          ? const Color(0xFF9CA3AF)
+                          : const Color(0xFF6B7280)),
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -380,6 +407,7 @@ class _DinasScreenState extends State<DinasScreen> {
     final reporter       = data['reporterName'] as String? ?? 'Anonymous';
     final reporterUserId = data['userId']       as String? ?? '';
     final imageUrl       = data['imageUrl']     as String?;
+    final description    = (data['description'] ?? '') as String;
     final completionUrl  = data['completionImageUrl'] as String?;
     final border    = isDark ? const Color(0xFF374151) : const Color(0xFFE5E7EB);
     final textMuted = isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280);
@@ -491,6 +519,19 @@ class _DinasScreenState extends State<DinasScreen> {
               ),
             ),
 
+          // ── Description ────────────────────────────────────────
+          if (description.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Text(
+                description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 13, color: textMuted, height: 1.4),
+              ),
+            ),
+
           // ── Meta ───────────────────────────────────────────────
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
@@ -504,7 +545,50 @@ class _DinasScreenState extends State<DinasScreen> {
                 _metaRow(LucideIcons.calendar,
                     _formatTs(data['reportedAt'] ?? data['createdAt']),
                     textMuted),
+                if (data['assignedAt'] != null) ...[
+                  const SizedBox(height: 4),
+                  _metaRow(LucideIcons.building2,
+                      'Ditugaskan ${_formatTs(data['assignedAt'])}', _blue),
+                ],
               ],
+            ),
+          ),
+
+          // ── Timeline ───────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? const Color(0xFF111827)
+                    : const Color(0xFFF9FAFB),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: border),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    _dot(active: true, color: _green),
+                    _connector(
+                        active: status == 'Diproses' || status == 'Selesai'),
+                    _dot(
+                        active:
+                            status == 'Diproses' || status == 'Selesai',
+                        color: _amber),
+                    _connector(active: status == 'Selesai'),
+                    _dot(active: status == 'Selesai', color: _green),
+                  ]),
+                  const SizedBox(height: 6),
+                  Row(children: [
+                    _tsCol('Dilaporkan',
+                        data['reportedAt'] ?? data['createdAt'], textMuted),
+                    _tsCol('Diproses', data['processedAt'], textMuted),
+                    _tsCol('Selesai', data['completedAt'], textMuted),
+                  ]),
+                ],
+              ),
             ),
           ),
 
@@ -681,6 +765,113 @@ class _DinasScreenState extends State<DinasScreen> {
                       color: Colors.white)),
             ],
           ),
+        ),
+      );
+
+  Widget _summaryBar(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
+    bool isDark,
+  ) {
+    final menunggu = docs.where((d) => d.data()['status'] == 'Menunggu').length;
+    final diproses = docs.where((d) => d.data()['status'] == 'Diproses').length;
+    final selesai  = docs.where((d) => d.data()['status'] == 'Selesai').length;
+    return Container(
+      color: isDark ? const Color(0xFF1F2937) : const Color(0xFFF3F4F6),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          if (menunggu > 0) ...[
+            _pill('Menunggu', menunggu.toString(), _blue, isDark),
+            const SizedBox(width: 6),
+          ],
+          _pill('Diproses', diproses.toString(), _amber, isDark),
+          const SizedBox(width: 6),
+          _pill('Selesai', selesai.toString(), _green, isDark),
+          const Spacer(),
+          Text(
+            '${docs.length} laporan',
+            style: TextStyle(
+              fontSize: 11,
+              color: isDark
+                  ? const Color(0xFF6B7280)
+                  : const Color(0xFF9CA3AF),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _pill(String label, String value, Color color, bool isDark) =>
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: color.withValues(alpha: 0.2)),
+        ),
+        child: RichText(
+          text: TextSpan(children: [
+            TextSpan(
+              text: value,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: color, fontSize: 12),
+            ),
+            TextSpan(
+              text: ' $label',
+              style: TextStyle(
+                fontSize: 11,
+                color: isDark
+                    ? const Color(0xFF9CA3AF)
+                    : const Color(0xFF6B7280),
+              ),
+            ),
+          ]),
+        ),
+      );
+
+  Widget _dot({required bool active, required Color color}) => Container(
+        width: 12,
+        height: 12,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: active ? color : Colors.transparent,
+          border: Border.all(
+            color: active ? color : Colors.grey.withValues(alpha: 0.35),
+            width: 2,
+          ),
+        ),
+      );
+
+  Widget _connector({required bool active}) => Expanded(
+        child: Container(
+          height: 2,
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(1),
+            color: active
+                ? _green.withValues(alpha: 0.6)
+                : Colors.grey.withValues(alpha: 0.2),
+          ),
+        ),
+      );
+
+  Widget _tsCol(String label, dynamic ts, Color muted) => Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label,
+                style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: muted)),
+            const SizedBox(height: 2),
+            Text(
+              _formatTs(ts),
+              style: TextStyle(fontSize: 9, color: muted),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       );
 
