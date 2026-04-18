@@ -1,31 +1,36 @@
-/// Simpan FCM token admin ke Firestore agar Cloud Function bisa kirim push.
-///
-/// Panggil [FcmTokenService.saveToken] setelah admin login.
-/// Membutuhkan package: firebase_messaging: ^15.0.0 (tambah ke pubspec.yaml)
-///
-/// Contoh penggunaan di login screen setelah berhasil sign-in sebagai admin:
-///   await FcmTokenService.saveToken(user.uid);
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-// ignore_for_file: depend_on_referenced_packages
-// TODO: Uncomment setelah menambahkan firebase_messaging ke pubspec.yaml
+class FcmTokenService {
+  static final _db = FirebaseFirestore.instance;
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-//
-// class FcmTokenService {
-//   static Future<void> saveToken(String uid) async {
-//     final token = await FirebaseMessaging.instance.getToken();
-//     if (token == null) return;
-//     await FirebaseFirestore.instance
-//         .collection('users')
-//         .doc(uid)
-//         .update({'fcmToken': token});
-//   }
-//
-//   static Future<void> clearToken(String uid) async {
-//     await FirebaseFirestore.instance
-//         .collection('users')
-//         .doc(uid)
-//         .update({'fcmToken': null});
-//   }
-// }
+  /// Simpan FCM token ke Firestore dan daftarkan listener refresh token.
+  /// Panggil setelah user login (non-anonymous).
+  static Future<void> saveToken(String uid) async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token == null) return;
+      await _db.collection('users').doc(uid).update({'fcmToken': token});
+
+      // Otomatis perbarui token jika FCM me-refresh
+      FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+        _db
+            .collection('users')
+            .doc(uid)
+            .update({'fcmToken': newToken}).catchError((_) {});
+      });
+    } catch (_) {
+      // Tidak kritis — abaikan jika gagal
+    }
+  }
+
+  /// Hapus token saat logout agar push tidak terkirim ke device yang sudah keluar.
+  static Future<void> clearToken(String uid) async {
+    try {
+      await _db
+          .collection('users')
+          .doc(uid)
+          .update({'fcmToken': FieldValue.delete()});
+    } catch (_) {}
+  }
+}

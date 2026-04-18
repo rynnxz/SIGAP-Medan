@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:forui/forui.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'screens/auth_wrapper.dart';
 import 'components/app_gate.dart';
+import 'services/notification_service.dart';
 // import 'utils/upload_landmarks.dart';
 // import 'utils/upload_reports.dart';
 // import 'utils/upload_quests.dart';
+
+/// Handler untuk pesan FCM saat app di-terminate (top-level, bukan class method).
+@pragma('vm:entry-point')
+Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationService.init();
+  await NotificationService.showFromRemoteMessage(message);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +26,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
+  // Daftarkan background handler SEBELUM runApp
+  FirebaseMessaging.onBackgroundMessage(_fcmBackgroundHandler);
+
   // Disable Firestore cache for real-time updates
   FirebaseFirestore.instance.settings = Settings(
     persistenceEnabled: false,

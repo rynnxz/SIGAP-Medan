@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' show Color;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -176,6 +177,49 @@ class NotificationService {
 
   static Future<void> cancelStreakReminder() async {
     await _plugin.cancel(999);
+  }
+
+  // ── FCM foreground listener ───────────────────────────────────────────────
+
+  /// Panggil sekali setelah [init] — menampilkan notifikasi lokal
+  /// saat pesan FCM datang ketika app sedang terbuka (foreground).
+  static void initFCM() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      showFromRemoteMessage(message);
+    });
+  }
+
+  /// Tampilkan local notification dari payload FCM (foreground & background).
+  static Future<void> showFromRemoteMessage(RemoteMessage message) async {
+    final notification = message.notification;
+    if (notification == null) return;
+
+    final isSos = message.data['type'] == 'sos_alert';
+
+    await _plugin.show(
+      message.hashCode.abs() % 100000,
+      notification.title ?? 'SIGAP Medan',
+      notification.body ?? '',
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          isSos ? _channelIdSos : _channelId,
+          isSos ? _channelNameSos : _channelName,
+          channelDescription:
+              isSos ? _channelDescSos : _channelDesc,
+          importance: isSos ? Importance.max : Importance.high,
+          priority: isSos ? Priority.max : Priority.high,
+          icon: '@mipmap/ic_launcher',
+          color: isSos ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+          enableVibration: true,
+          fullScreenIntent: isSos,
+        ),
+        iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+      ),
+    );
   }
 
   // ── Write notification record to Firestore ────────────────────────────────

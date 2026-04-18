@@ -1,15 +1,20 @@
 /**
- * Firebase Cloud Functions — SOS Alert → FCM Push ke semua admin
+ * Firebase Cloud Functions — SIGAP Medan
+ *
+ * Fungsi yang tersedia:
+ *   1. onSosAlert          — SOS baru → push FCM ke semua admin
+ *   2. onNotificationCreated — notifikasi baru di Firestore → push FCM ke user
  *
  * Deploy:
- *   cd functions && npm install && cd ..
+ *   cd functions
+ *   npm install
+ *   cd ..
  *   firebase deploy --only functions
  *
  * Prasyarat:
- *   1. firebase init functions (pilih JavaScript)
- *   2. flutter: tambah firebase_messaging ke pubspec.yaml
- *   3. Simpan FCM token admin ke Firestore users/{uid}.fcmToken
- *      (lihat lib/services/fcm_token_service.dart)
+ *   - Firebase project sudah diinisialisasi (firebase init)
+ *   - FCM token tersimpan di Firestore users/{uid}.fcmToken
+ *     (otomatis disimpan oleh FcmTokenService saat login)
  */
 
 const { onDocumentCreated } = require('firebase-functions/v2/firestore');
@@ -85,5 +90,69 @@ exports.onSosAlert = onDocumentCreated(
     console.log(
       `SOS push sent: ${result.successCount} ok, ${result.failureCount} fail`
     );
+  }
+);
+
+// ── Trigger 2: Notifikasi baru → FCM push ke user yang bersangkutan ──────────
+
+exports.onNotificationCreated = onDocumentCreated(
+  'notifications/{notifId}',
+  async (event) => {
+    const data   = event.data.data();
+    const userId = data.userId;
+    if (!userId) return;
+
+    const db       = getFirestore();
+    const userSnap = await db.collection('users').doc(userId).get();
+    if (!userSnap.exists) return;
+
+    const fcmToken = userSnap.data().fcmToken;
+    if (!fcmToken) {
+      console.log(`User ${userId} has no FCM token, skipping push.`);
+      return;
+    }
+
+    const isSos = data.type === 'sos_alert';
+
+    const message = {
+      token: fcmToken,
+      notification: {
+        title: data.title  ?? 'SIGAP Medan',
+        body:  data.body   ?? '',
+      },
+      data: {
+        type:     data.type     ?? 'general',
+        reportId: data.reportId ?? '',
+      },
+      android: {
+        priority: 'high',
+        notification: {
+          channelId:             isSos ? 'sos_alerts' : 'sigap_medan',
+          priority:              isSos ? 'max' : 'high',
+          defaultSound:          true,
+          defaultVibrateTimings: isSos,
+          color:                 isSos ? '#EF4444' : '#10B981',
+        },
+      },
+      apns: {
+        payload: {
+          aps: {
+            sound: 'default',
+            badge: 1,
+          },
+        },
+      },
+    };
+
+    try {
+      await getMessaging().send(message);
+      console.log(`Push sent to user ${userId} (type: ${data.type})`);
+    } catch (err) {
+      console.error(`Failed to send push to user ${userId}:`, err.message);
+      // Hapus token invalid agar tidak retry terus
+      if (err.code === 'messaging/registration-token-not-registered') {
+        await db.collection('users').doc(userId).update({ fcmToken: null });
+      }
+    }
   }
 );

@@ -9,6 +9,7 @@ import 'login_screen.dart';
 import 'location_permission_screen.dart';
 import '../services/notification_service.dart';
 import '../services/user_profile_service.dart';
+import '../services/fcm_token_service.dart';
 
 class AuthWrapper extends StatefulWidget {
   final ThemeMode currentTheme;
@@ -31,7 +32,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
-    NotificationService.init().then((_) => NotificationService.requestPermission());
+    NotificationService.init().then((_) {
+      NotificationService.requestPermission();
+      NotificationService.initFCM();
+    });
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) setState(() => _showSplash = false);
     });
@@ -40,6 +44,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
   Future<void> _onUserLoggedIn(String uid) async {
     if (_lastHandledUid == uid) return;
     _lastHandledUid = uid;
+    await FcmTokenService.saveToken(uid);
     final newStreak = await UserProfileService().updateLoginStreak();
     if (newStreak != null) {
       await NotificationService.scheduleStreakReminder();

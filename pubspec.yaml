@@ -51,6 +51,7 @@ dependencies:
   cloud_firestore: ^5.5.2
   google_sign_in: ^6.2.2
   cached_network_image: ^3.4.1
+  firebase_messaging: ^15.1.0
   flutter_local_notifications: ^18.0.1
   timezone: ^0.9.4
   shared_preferences: ^2.3.3
